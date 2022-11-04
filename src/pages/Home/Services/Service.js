@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Service = ({ srv }) => {
     const { img, price, title } = srv
@@ -10,7 +11,9 @@ const Service = ({ srv }) => {
                 <h2 className="card-title">{title}</h2>
                 <p className='text-2xl text-orange-500 font-semibold'>Price: ${price}</p>
                 <div className="card-actions justify-end">
-                    <button className="btn bg-orange-500 border-0">Buy Now</button>
+                    <Link to={`/checkout/${srv._id}`}>
+                        <button className="btn bg-orange-500 border-0">Buy Now</button>
+                    </Link>
                 </div>
             </div>
         </div>

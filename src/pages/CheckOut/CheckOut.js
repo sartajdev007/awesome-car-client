@@ -28,7 +28,7 @@ const CheckOut = () => {
         // if (phone.length < 11) {
         //     alert('Number should 10 characters or more')
         // }
-        fetch('http://localhost:5000/orders', {
+        fetch('https://awesome-car-server.vercel.app/orders', {
             method: 'POST',
             headers: {
                 'content-type': 'application/json'

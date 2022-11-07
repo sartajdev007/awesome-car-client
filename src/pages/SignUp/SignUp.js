@@ -17,6 +17,24 @@ const SignUp = () => {
             .then(result => {
                 const user = result.user;
                 console.log(user)
+                const currrentUser = {
+                    email: user.email
+                }
+                // get jwt token
+                fetch('https://awesome-car-server.vercel.app/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(currrentUser)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+
+                        // local storage is the easiest not the best way for token store
+                        localStorage.setItem('awesome-token', data.token)
+                    })
             })
             .catch(err => console.error(err))
     }

@@ -1,11 +1,15 @@
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import img from '../../assets/images/login/login.svg'
 import { AuthContext } from '../../contexts/AuthProvider/AuthProvider';
 import { FaGoogle } from "react-icons/fa"
 
 const Login = () => {
     const { signIn, googleLogin } = useContext(AuthContext)
+    const location = useLocation()
+    const navigate = useNavigate()
+
+    const from = location.state?.from?.pathname || '/'
 
     const handleLogin = e => {
         e.preventDefault()
@@ -15,7 +19,29 @@ const Login = () => {
         signIn(email, password)
             .then(result => {
                 const user = result.user
-                console.log(user)
+
+                const currrentUser = {
+                    email: user.email
+                }
+
+                console.log(currrentUser)
+                // get jwt token
+                fetch('http://localhost:5000/jwt', {
+                    method: 'POST',
+                    headers: {
+                        'content-type': 'application/json'
+                    },
+                    body: JSON.stringify(currrentUser)
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+
+                        // local storage is the easiest not the best way for token store
+                        localStorage.setItem('awesome-token', data.token)
+                        navigate(from, { replace: true })
+                    })
+
             })
             .catch(err => console.error(err))
     }
